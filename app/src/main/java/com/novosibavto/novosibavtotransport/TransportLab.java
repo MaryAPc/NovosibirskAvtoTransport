@@ -44,24 +44,23 @@ public class TransportLab {
 
         return spinAdapter;
     }
-/*
+
     public SimpleCursorAdapter listviewAdapter() {
-        String sqlQuery = "SELECT Marsh.NumMarsh, Marsh.NameMarsh"
-                + "FROM Marsh"
-                + "JOIN Transport"
-                + "ON Transport._id = Marsh.idSpesies"
-                + "WHERE Transport._id = ?";
-        Cursor cursor = mDatabase.rawQuery(sqlQuery, new String[]{"2"});
+        String sqlQuery = "SELECT Marsh._id, Marsh.NumMarsh, Marsh.NameMarsh "
+                + "FROM Marsh "
+                + "JOIN Transport "
+                + "ON Transport._id = Marsh.idSpecies "
+                + "WHERE Transport._id = 2";
+        Cursor cursor = mDatabase.rawQuery(sqlQuery, null);
         SimpleCursorAdapter listvAdapter = new SimpleCursorAdapter(mContext,
-                android.R.layout.simple_list_item_1,
+                android.R.layout.simple_list_item_multiple_choice,
                 cursor,
                 new String[]{"NumMarsh", "NameMarsh"},
                 new int[]{android.R.id.text1}, 0);
         listvAdapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
-        cursor.close();
 
         return listvAdapter;
-    }*/
+    }
 
     public void closeDataBase() {
         mDatabase.close();

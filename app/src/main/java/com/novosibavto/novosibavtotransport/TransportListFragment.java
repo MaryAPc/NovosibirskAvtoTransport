@@ -29,11 +29,11 @@ public class TransportListFragment extends Fragment implements LoaderManager.Loa
         Spinner transportSpinner = (Spinner)view.findViewById(R.id.transport_spinner);
         mTransportLab = TransportLab.get(getContext());
         transportSpinner.setAdapter(mTransportLab.spinnerAdapter());
-        getLoaderManager().initLoader(0, null, this);
+     //   getLoaderManager().initLoader(0, null, this);
 
-/*        ListView marshListview = (ListView)view.findViewById(R.id.marsh_list_view);
+        ListView marshListview = (ListView)view.findViewById(R.id.marsh_list_view);
         marshListview.setAdapter(mTransportLab.listviewAdapter());
-        getLoaderManager().initLoader(0, null, this);*/
+       // getLoaderManager().initLoader(1, null, this);
 
         return view;
     }
