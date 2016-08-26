@@ -8,13 +8,17 @@ import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 public class TransportListFragment extends Fragment implements LoaderManager.LoaderCallbacks {
 
     TransportLab mTransportLab;
+    ListView marshListView;
+    Spinner transportSpinner;
 
     public TransportListFragment() {
         // Required empty public constructor
@@ -25,15 +29,29 @@ public class TransportListFragment extends Fragment implements LoaderManager.Loa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_transport_list, container, false);
-        Spinner transportSpinner = (Spinner)view.findViewById(R.id.transport_spinner);
+        final View view = inflater.inflate(R.layout.fragment_transport_list, container, false);
+        transportSpinner = (Spinner)view.findViewById(R.id.transport_spinner);
+        marshListView = (ListView)view.findViewById(R.id.marsh_list_view);
         mTransportLab = TransportLab.get(getContext());
-        transportSpinner.setAdapter(mTransportLab.spinnerAdapter());
-     //   getLoaderManager().initLoader(0, null, this);
 
-        ListView marshListview = (ListView)view.findViewById(R.id.marsh_list_view);
-        marshListview.setAdapter(mTransportLab.listviewAdapter());
-       // getLoaderManager().initLoader(1, null, this);
+        transportSpinner.setAdapter(mTransportLab.spinnerAdapter());
+        getLoaderManager().initLoader(0, null, this);
+        transportSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                marshListView.setAdapter(mTransportLab.listViewAdapter(position));
+                getLoaderManager().initLoader(1, null, TransportListFragment.this);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+
+
 
         return view;
     }
