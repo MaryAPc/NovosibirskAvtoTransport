@@ -54,10 +54,10 @@ public class TransportLab {
                 + String.valueOf(spinPosition + 1);
         Cursor cursor = mDatabase.rawQuery(sqlQuery, null);
         SimpleCursorAdapter listvAdapter = new SimpleCursorAdapter(mContext,
-                android.R.layout.simple_list_item_multiple_choice,
+                R.layout.list_item,
                 cursor,
                 new String[]{"NumMarsh", "NameMarsh"},
-                new int[]{android.R.id.text1, android.R.id.text1}, 0);
+                new int[]{R.id.text_num_marsh, R.id.text_name_marsh}, 0);
         listvAdapter.setDropDownViewResource(android.R.layout.simple_list_item_multiple_choice);
 
         return listvAdapter;
