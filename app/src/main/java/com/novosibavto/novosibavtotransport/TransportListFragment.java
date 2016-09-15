@@ -2,14 +2,19 @@ package com.novosibavto.novosibavtotransport;
 
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -23,7 +28,7 @@ public class TransportListFragment extends Fragment implements LoaderManager.Loa
     Button mMapButton;
 
     public TransportListFragment() {
-        // Required empty public constructor
+        // required empty public constructor
     }
 
 
@@ -45,10 +50,24 @@ public class TransportListFragment extends Fragment implements LoaderManager.Loa
 
                 mMarshListView.setAdapter(mTransportLab.listViewAdapter(position));
                 getLoaderManager().initLoader(1, null, TransportListFragment.this);
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        mMarshListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mMarshListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+                CheckMarsh checkMarsh = new CheckMarsh();
+                Cursor listCursor = (Cursor)mMarshListView.getAdapter().getItem(position);
+                String numMarsh = listCursor.getString(1);
+                Cursor spinnerCursor = (Cursor) mTransportSpinner.getSelectedItem();
+                String typeAvto =  spinnerCursor.getString(0);
+                checkMarsh.putMarsh(typeAvto, numMarsh);
             }
         });
 
@@ -59,10 +78,6 @@ public class TransportListFragment extends Fragment implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
-
-
-
-
 
         return view;
     }
