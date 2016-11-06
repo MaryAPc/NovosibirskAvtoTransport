@@ -6,6 +6,6 @@ public class MainActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return new TransportListFragment();
+        return TransportListFragment.newInstance();
     }
 }

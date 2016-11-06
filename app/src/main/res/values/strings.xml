@@ -1,9 +1,21 @@
 <resources>
     <string name="app_name">NovosibAvtoTransport</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_maps">Map</string>
     <string name="spinner_hint_textview">Выберите вид транспорта:</string>
     <string name="go_to_map">На карту</string>
+    
+    <string name="api_version">0.4</string>
+    <string name="key">56b97e45ad1772c63761c307f5e763ec</string>
+    <string name="format_json">json</string>
+    <string name="alert_dialog_title_error">Ошибка!</string>
+    <string name="alert_dialog_message_check_network">Проверьте подключение к интернету</string>
+
+    <string-array name="transport_types">
+        <item>Автобус</item>
+        <item>Троллейбус</item>
+        <item>Трамвай</item>
+        <item>Маршрутное такси</item>
+    </string-array>
 </resources>
