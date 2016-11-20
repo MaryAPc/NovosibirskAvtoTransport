@@ -14,6 +14,16 @@ public class MarshData {
 	@SerializedName("name_end")
 	private String mNameEnd;
 
+	private boolean mChecked;
+
+	public boolean isChecked() {
+		return mChecked;
+	}
+
+	public void setChecked(boolean checked) {
+		mChecked = checked;
+	}
+
 	public String getId() {
 		return mId;
 	}

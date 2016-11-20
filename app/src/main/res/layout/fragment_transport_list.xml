@@ -40,12 +40,4 @@
 		android:layout_height="0dp"
 		android:layout_marginTop="20dp"
 		android:layout_weight="10" />
-
-	<Button
-		android:id="@+id/go_to_map_button"
-		android:layout_width="100dp"
-		android:layout_height="10dp"
-		android:layout_gravity="end"
-		android:layout_weight="1"
-		android:text="@string/go_to_map" />
 </LinearLayout>

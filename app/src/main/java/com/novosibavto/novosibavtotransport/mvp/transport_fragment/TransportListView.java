@@ -1,4 +1,4 @@
-package com.novosibavto.novosibavtotransport.mvp;
+package com.novosibavto.novosibavtotransport.mvp.transport_fragment;
 
 import java.util.List;
 
@@ -18,4 +18,5 @@ public interface TransportListView extends MvpView {
 
 	void setMarsh(List<MarshData> marshData);
 
+	void setCheckedMarsh(int position);
 }

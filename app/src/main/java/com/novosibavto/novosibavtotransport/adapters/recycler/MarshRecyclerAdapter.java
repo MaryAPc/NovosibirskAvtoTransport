@@ -16,6 +16,16 @@ public class MarshRecyclerAdapter extends RecyclerView.Adapter<MarshRecyclerView
 
 	private List<MarshData> mMarshList = new ArrayList<>();
 	private MarshRecyclerViewHolder mViewHolder;
+	private OnItemClickListener mOnItemClickListener;
+
+	public interface OnItemClickListener {
+		void onItemClick(View view, int position);
+	}
+
+	public MarshRecyclerAdapter(List<MarshData> marshList, OnItemClickListener onItemClickListener) {
+		mMarshList = marshList;
+		mOnItemClickListener = onItemClickListener;
+	}
 
 	@Override
 	public MarshRecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -27,6 +37,7 @@ public class MarshRecyclerAdapter extends RecyclerView.Adapter<MarshRecyclerView
 	@Override
 	public void onBindViewHolder(MarshRecyclerViewHolder holder, int position) {
 		holder.bind(mMarshList.get(position));
+		holder.itemView.setOnClickListener(view -> mOnItemClickListener.onItemClick(view, position));
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.novosibavto.novosibavtotransport.mvp;
+package com.novosibavto.novosibavtotransport.mvp.transport_fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +20,7 @@ public class TransportPresenter extends MvpPresenter<TransportListView> {
 
 	private Subscription mSubscription;
 	private List<MarshData> mDataList;
+	private Marsh mMarsh = Marsh.getMarsh();
 
 	public void loadAllMarsh() {
 		mSubscription = requestWeathers()
@@ -39,26 +40,32 @@ public class TransportPresenter extends MvpPresenter<TransportListView> {
 
 					@Override
 					public void onNext(List<MarshData> marshData) {
-						mDataList = marshData;
+						mMarsh.setData(marshData);
 						getViewState().setMarsh(marshData);
 					}
 				});
 	}
 
 	public void userSelectSpinnerItem(String typePosition) {
-		List<MarshData> marshOfType = new ArrayList<>();
-		if (mDataList != null) {
+		List<MarshData> dataList = mMarsh.getData();
+		if (dataList != null) {
+			List<MarshData> marshOfType = new ArrayList<>();
 			if (typePosition.equals("4")) {
 				typePosition = "8";
 			}
-			for (int i = 0; i < mDataList.size(); i++) {
-				MarshData marshData = mDataList.get(i);
+			for (int i = 0; i < dataList.size(); i++) {
+				MarshData marshData = dataList.get(i);
 				if (marshData.getTypeTransport().equals(typePosition)) {
 					marshOfType.add(marshData);
 				}
 			}
 			getViewState().setMarsh(marshOfType);
 		}
+	}
+
+	public void userCheckMarsh(int position) {
+		mMarsh.getData().get(position).setChecked(false);
+		getViewState().setCheckedMarsh(position);
 	}
 
 	private Observable<Marsh> requestWeathers() {

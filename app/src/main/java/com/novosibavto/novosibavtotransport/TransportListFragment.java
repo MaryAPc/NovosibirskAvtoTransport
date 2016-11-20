@@ -1,6 +1,7 @@
 package com.novosibavto.novosibavtotransport;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 
@@ -21,8 +21,8 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.novosibavto.novosibavtotransport.adapters.recycler.MarshRecyclerAdapter;
 import com.novosibavto.novosibavtotransport.models.MarshData;
-import com.novosibavto.novosibavtotransport.mvp.TransportListView;
-import com.novosibavto.novosibavtotransport.mvp.TransportPresenter;
+import com.novosibavto.novosibavtotransport.mvp.transport_fragment.TransportListView;
+import com.novosibavto.novosibavtotransport.mvp.transport_fragment.TransportPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,9 +35,6 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
 
     @BindView(R.id.fragment_transport_spinner)
     Spinner mTransportSpinner;
-
-    @BindView(R.id.go_to_map_button)
-    Button mMapButton;
 
     @BindView(R.id.fragment_transport_list_progress_bar)
     ProgressBar mProgressBar;
@@ -58,7 +55,9 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMarshListAdapter = new MarshRecyclerAdapter();
+        mMarshListAdapter = new MarshRecyclerAdapter(new ArrayList<>(), (view, position) -> {
+            mTransportPresenter.userCheckMarsh(position);
+        });
         mSpinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.transport_types));
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
@@ -121,5 +120,10 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
     @Override
     public void setMarsh(List<MarshData> marshData) {
         mMarshListAdapter.setCollection(marshData);
+    }
+
+    @Override
+    public void setCheckedMarsh(int position) {
+        mMarshListAdapter.notifyDataSetChanged();
     }
 }

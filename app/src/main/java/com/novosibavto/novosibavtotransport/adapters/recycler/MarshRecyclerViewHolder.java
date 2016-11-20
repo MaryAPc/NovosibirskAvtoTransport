@@ -2,6 +2,7 @@ package com.novosibavto.novosibavtotransport.adapters.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.novosibavto.novosibavtotransport.R;
@@ -19,6 +20,9 @@ public class MarshRecyclerViewHolder extends RecyclerView.ViewHolder {
 	@BindView(R.id.item_marsh_text_view_num_marsh)
 	TextView mNumMarshTextView;
 
+	@BindView(R.id.item_marsh_check_box)
+	CheckBox mCheckBox;
+
 	public MarshRecyclerViewHolder(View itemView) {
 		super(itemView);
 		ButterKnife.bind(this, itemView);
@@ -26,6 +30,7 @@ public class MarshRecyclerViewHolder extends RecyclerView.ViewHolder {
 
 	public void bind(MarshData model) {
 		mNumMarshTextView.setText(model.getTitle());
+		mCheckBox.setChecked(model.isChecked());
 
 		String fullNameMarsh = model.getNameBegin() + " - " + model.getNameEnd();
 		mNameMarshTextView.setText(fullNameMarsh);
