@@ -44,6 +44,7 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
 
     private MarshRecyclerAdapter mMarshListAdapter;
     private ArrayAdapter<String> mSpinnerAdapter;
+    private String mPositionSpinner;
 
     public static TransportListFragment newInstance() {
         TransportListFragment fragment = new TransportListFragment();
@@ -55,9 +56,7 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMarshListAdapter = new MarshRecyclerAdapter(new ArrayList<>(), (view, position) -> {
-            mTransportPresenter.userCheckMarsh(position);
-        });
+        mMarshListAdapter = new MarshRecyclerAdapter(new ArrayList<>(), (view, position) -> mTransportPresenter.userCheckMarsh(position, mPositionSpinner));
         mSpinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.transport_types));
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     }
@@ -88,7 +87,8 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
         return new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                mTransportPresenter.userSelectSpinnerItem(String.valueOf(position + 1));
+                mPositionSpinner = String.valueOf(position);
+                mTransportPresenter.userSelectSpinnerItem(mPositionSpinner);
             }
 
             @Override
@@ -120,6 +120,7 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
     @Override
     public void setMarsh(List<MarshData> marshData) {
         mMarshListAdapter.setCollection(marshData);
+        mMarshListView.scrollToPosition(0);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.novosibavto.novosibavtotransport.adapters.recycler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,8 +47,12 @@ public class MarshRecyclerAdapter extends RecyclerView.Adapter<MarshRecyclerView
 		return mMarshList.size();
 	}
 
-	public void setCollection(List<MarshData> marshData) {
-		mMarshList = marshData;
+	public void setCollection(@Nullable List<MarshData> marshData) {
+		if (marshData == null) {
+			mMarshList = Collections.emptyList();
+		} else {
+			mMarshList = marshData;
+		}
 		notifyDataSetChanged();
 	}
 }
