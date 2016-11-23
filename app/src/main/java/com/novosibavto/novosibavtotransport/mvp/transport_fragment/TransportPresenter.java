@@ -1,7 +1,6 @@
 package com.novosibavto.novosibavtotransport.mvp.transport_fragment;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.arellomobile.mvp.InjectViewState;
@@ -24,12 +23,12 @@ import rx.schedulers.Schedulers;
 public class TransportPresenter extends MvpPresenter<TransportListView> {
 
 	private Subscription mSubscription;
-	private List<MarshData> mDataList;
+	private List<MarshData> mDataList = new ArrayList<>();
 	private List<MarshData> mBusList = new ArrayList<>();
 	private List<MarshData> mTrolleyList = new ArrayList<>();
 	private List<MarshData> mTramList = new ArrayList<>();
 	private List<MarshData> mMarshTaxiList = new ArrayList<>();
-	private Marsh mMarsh = Marsh.getMarsh();
+	private List<MarshData> mChosenList;
 	private Bus mBus = Bus.getBus();
 	private Trolley mTrolley = Trolley.getTrolley();
 	private Tram mTram = Tram.getTram();
@@ -68,32 +67,52 @@ public class TransportPresenter extends MvpPresenter<TransportListView> {
 						mTrolley.setData(mTrolleyList);
 						mTram.setData(mTramList);
 						mMarshTaxi.setData(mMarshTaxiList);
-						getViewState().setMarsh(mBusList);
+						getViewState().setMarsh(mBusList); //61
 					}
 				});
 	}
 
 	public void userSelectSpinnerItem(String typePosition) {
-		List<MarshData> marshOfType = Collections.emptyList();
-		switch (typePosition) {
-			case "0":
-				marshOfType = mBus.getData();
-				break;
-			case "1":
-				marshOfType = mTrolley.getData();
-				break;
-			case "2":
-				marshOfType = mTram.getData();
-				break;
-			case "3":
-				marshOfType = mMarshTaxi.getData();
-				break;
-		}
+		List<MarshData> marshOfType = getDataList(typePosition);
 		getViewState().setMarsh(marshOfType);
 	}
 
 	public void userCheckMarsh(int position, String positionSpinner) {
-		switch (positionSpinner) {
+		mDataList = getDataList(positionSpinner);
+		if (mDataList.get(position).isChecked()) {
+			mDataList.get(position).setChecked(false);
+		} else {
+			mDataList.get(position).setChecked(true);
+		}
+		getViewState().setCheckedMarsh(position);
+	}
+
+	public void getChosenMarsh() {
+		List<MarshData> data = new ArrayList<>();
+		if (mBus.getData() != null) {
+			mChosenList.clear();
+			data.addAll(mBus.getData());
+			data.addAll(mTrolley.getData());
+			data.addAll(mTram.getData());
+			data.addAll(mMarshTaxi.getData());
+			for (int i = 0; i < data.size(); i++) {
+				if (data.get(i).isChecked()) {
+					mChosenList.add(data.get(i));
+				}
+			}
+		} else {
+			mChosenList = new ArrayList<>();
+		}
+		getViewState().setMarsh(mChosenList);
+	}
+
+	public void deleteChosenMarsh(int position) {
+		mChosenList.remove(position);
+		getViewState().setMarsh(mChosenList);
+	}
+
+	private List<MarshData> getDataList(String position) {
+		switch (position) {
 			case "0":
 				mDataList = mBus.getData();
 				break;
@@ -104,15 +123,10 @@ public class TransportPresenter extends MvpPresenter<TransportListView> {
 				mDataList = mTram.getData();
 				break;
 			case "3":
-				mDataList = mMarshTaxi.getData();
+				mDataList = mMarshTaxi.getData(); //61
 				break;
 		}
-		if (mDataList.get(position).isChecked()) {
-			mDataList.get(position).setChecked(false);
-		} else {
-			mDataList.get(position).setChecked(true);
-		}
-		getViewState().setCheckedMarsh(position);
+		return mDataList;
 	}
 
 	private Observable<Marsh> requestWeathers() {

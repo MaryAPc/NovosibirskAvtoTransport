@@ -10,6 +10,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -81,6 +84,20 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
         super.onActivityCreated(savedInstanceState);
         mTransportPresenter.loadAllMarsh();
         mTransportSpinner.setOnItemSelectedListener(getSpinnerListener());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.main_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.main_menu_chosen_marsh:
+                //mTransportPresenter.userClickChosenMarsh();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private AdapterView.OnItemSelectedListener getSpinnerListener() {

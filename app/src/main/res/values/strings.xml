@@ -9,6 +9,7 @@
     <string name="alert_dialog_title_error">Ошибка!</string>
     <string name="alert_dialog_message_check_network">Проверьте подключение к интернету</string>
     <string name="slider_panel_go_to_map">На карту</string>
+    <string name="chosen_marsh">Выбранные маршруты</string>
 
     <string-array name="transport_types">
         <item>Автобус</item>
