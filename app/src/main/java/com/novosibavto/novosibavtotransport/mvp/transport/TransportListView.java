@@ -1,4 +1,4 @@
-package com.novosibavto.novosibavtotransport.mvp.transport_fragment;
+package com.novosibavto.novosibavtotransport.mvp.transport;
 
 import java.util.List;
 

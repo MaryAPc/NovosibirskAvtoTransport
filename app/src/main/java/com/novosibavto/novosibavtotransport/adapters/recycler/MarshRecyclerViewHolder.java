@@ -34,5 +34,7 @@ public class MarshRecyclerViewHolder extends RecyclerView.ViewHolder {
 
 		String fullNameMarsh = model.getNameBegin() + " - " + model.getNameEnd();
 		mNameMarshTextView.setText(fullNameMarsh);
+
+		model.getTypeTransport();
 	}
 }

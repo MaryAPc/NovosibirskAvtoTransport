@@ -1,4 +1,4 @@
-package com.novosibavto.novosibavtotransport.mvp.transport_fragment;
+package com.novosibavto.novosibavtotransport.mvp.transport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class TransportPresenter extends MvpPresenter<TransportListView> {
 	private List<MarshData> mTrolleyList = new ArrayList<>();
 	private List<MarshData> mTramList = new ArrayList<>();
 	private List<MarshData> mMarshTaxiList = new ArrayList<>();
-	private List<MarshData> mChosenList;
+	private List<MarshData> mChosenList = new ArrayList<>();
 	private Bus mBus = Bus.getBus();
 	private Trolley mTrolley = Trolley.getTrolley();
 	private Tram mTram = Tram.getTram();
@@ -100,8 +100,6 @@ public class TransportPresenter extends MvpPresenter<TransportListView> {
 					mChosenList.add(data.get(i));
 				}
 			}
-		} else {
-			mChosenList = new ArrayList<>();
 		}
 		getViewState().setMarsh(mChosenList);
 	}
@@ -109,6 +107,16 @@ public class TransportPresenter extends MvpPresenter<TransportListView> {
 	public void deleteChosenMarsh(int position) {
 		mChosenList.remove(position);
 		getViewState().setMarsh(mChosenList);
+	}
+
+	public void refreshCheckedList(String position) {
+		/*mDataList = getDataList(position);
+		if (mDataList.get(position).isChecked()) {
+			mDataList.get(position).setChecked(false);
+		} else {
+			mDataList.get(position).setChecked(true);
+		}
+		getViewState().setCheckedMarsh(position);*/
 	}
 
 	private List<MarshData> getDataList(String position) {

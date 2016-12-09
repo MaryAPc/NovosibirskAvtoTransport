@@ -1,4 +1,4 @@
-package com.novosibavto.novosibavtotransport.network;
+package com.novosibavto.novosibavtotransport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,10 @@ import android.view.ViewGroup;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.novosibavto.novosibavtotransport.R;
 import com.novosibavto.novosibavtotransport.adapters.recycler.MarshRecyclerAdapter;
 import com.novosibavto.novosibavtotransport.models.MarshData;
-import com.novosibavto.novosibavtotransport.mvp.transport_fragment.TransportListView;
-import com.novosibavto.novosibavtotransport.mvp.transport_fragment.TransportPresenter;
+import com.novosibavto.novosibavtotransport.mvp.transport.TransportListView;
+import com.novosibavto.novosibavtotransport.mvp.transport.TransportPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

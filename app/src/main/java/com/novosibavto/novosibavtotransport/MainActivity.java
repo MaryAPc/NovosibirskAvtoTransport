@@ -1,114 +1,129 @@
 package com.novosibavto.novosibavtotransport;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.novosibavto.novosibavtotransport.models.Route;
 import com.novosibavto.novosibavtotransport.mvp.activity.MainActivityPresenter;
 import com.novosibavto.novosibavtotransport.mvp.activity.MainActivityView;
-import com.novosibavto.novosibavtotransport.network.ChosenMarshFragment;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-public class MainActivity extends MvpAppCompatActivity implements MainActivityView, ViewPager.OnPageChangeListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-    private TransportListFragment mTransportListFragment;
-    private FragmentManager mFragmentManager;
+public class MainActivity extends MvpAppCompatActivity implements MainActivityView, ViewPager.OnPageChangeListener, OnMapReadyCallback {
 
-    @InjectPresenter
-    MainActivityPresenter mActivityPresenter;
-    private ChosenMarshFragment mChosenMarshFragment;
+	@BindView(R.id.main_layout_sliding_layout)
+	SlidingUpPanelLayout mUpPanelLayout;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_layout);
+	@InjectPresenter
+	MainActivityPresenter mActivityPresenter;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_layout_toolbar);
-        setSupportActionBar(toolbar);
+	private GoogleMap mMap;
+	private PolylineOptions mPolylineOptions;
 
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main_layout);
+		ButterKnife.bind(this);
+		createMap();
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.main_layout_fragment_container);
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-            viewPager.addOnPageChangeListener(this);
-        }
+		Toolbar toolbar = (Toolbar) findViewById(R.id.main_layout_toolbar);
+		setSupportActionBar(toolbar);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.main_activity_tabs);
-        tabLayout.setupWithViewPager(viewPager);
-    }
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar != null) {
+			actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 
-    @Override
-    public void showFragment(Fragment fragment) {
-        /*FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_activity_fragment_container, mTransportListFragment);
-        fragmentTransaction.commit();*/
-    }
+		ViewPager viewPager = (ViewPager) findViewById(R.id.main_layout_fragment_container);
+		if (viewPager != null) {
+			mActivityPresenter.setupViewPager(viewPager, getSupportFragmentManager());
+			viewPager.addOnPageChangeListener(this);
+		}
 
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(TransportListFragment.newInstance(), "Маршруты");
-        mChosenMarshFragment = ChosenMarshFragment.newInstance();
-        adapter.addFragment(mChosenMarshFragment, "Выбранное");
-        viewPager.setAdapter(adapter);
-    }
+		TabLayout tabLayout = (TabLayout) findViewById(R.id.main_activity_tabs);
+		tabLayout.setupWithViewPager(viewPager);
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.d("sdfffff", "onPageScrolled");
-    }
+		mUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+			@Override
+			public void onPanelSlide(View panel, float slideOffset) {
+			}
 
-    @Override
-    public void onPageSelected(int position) {
-        mChosenMarshFragment.refreshChosenList();
-        Log.d("sdfffff", "onPageSelected");
-    }
+			@Override
+			public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+				if ((previousState == SlidingUpPanelLayout.PanelState.DRAGGING) && (newState == SlidingUpPanelLayout.PanelState.EXPANDED)) {
+					mMap.clear();
+					mActivityPresenter.drawTrassa();
+				}
+			}
+		});
+	}
 
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        Log.d("sdfffff", "onPageScrollStateChanged" + state);
-    }
+	private void createMap() {
+		if (mMap == null) {
+			((MapFragment) getFragmentManager().findFragmentById(
+					R.id.main_layout_map_container)).getMapAsync(this);
+		}
+	}
 
-    public class ViewPagerAdapter extends FragmentStatePagerAdapter  {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
+	@Override
+	public void onMapReady(GoogleMap googleMap) {
+		mMap = googleMap;
+	}
 
-        public ViewPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
+	@Override
+	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+	}
 
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
+	@Override
+	public void onPageSelected(int position) {
+		mActivityPresenter.refreshList(position);
+	}
 
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
+	@Override
+	public void onPageScrollStateChanged(int state) {
+	}
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
+	@Override
+	public void drawPolyline(List<Route.Data> dataRoute) {
+		if (dataRoute != null) {
+			Random random = new Random();
+			mPolylineOptions = new PolylineOptions()
+					.geodesic(true)
+					.color(-random.nextInt(0xFFFFFF))
+					.width(5);
+			List<Route.Trassa> trassa = dataRoute.get(0).getTrassa();
+			for (int i = 0; i < trassa.size(); i = i + 3) {
+				mPolylineOptions.add(new LatLng(Double.valueOf(trassa.get(i).getLat()), Double.valueOf(trassa.get(i).getLng())));
+				mMap.addPolyline(mPolylineOptions);
+			}
+		}
+	}
 
-        public void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-    }
+	@Override
+	public void hideProgress() {
+
+	}
+
+	@Override
+	public void showError() {
+
+	}
 }

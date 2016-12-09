@@ -24,8 +24,8 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.novosibavto.novosibavtotransport.adapters.recycler.MarshRecyclerAdapter;
 import com.novosibavto.novosibavtotransport.models.MarshData;
-import com.novosibavto.novosibavtotransport.mvp.transport_fragment.TransportListView;
-import com.novosibavto.novosibavtotransport.mvp.transport_fragment.TransportPresenter;
+import com.novosibavto.novosibavtotransport.mvp.transport.TransportListView;
+import com.novosibavto.novosibavtotransport.mvp.transport.TransportPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -113,6 +113,10 @@ public class TransportListFragment extends MvpAppCompatFragment implements Trans
 
             }
         };
+    }
+
+    public void refreshTransportList() {
+        mTransportPresenter.refreshCheckedList(String.valueOf(mTransportSpinner.getLastVisiblePosition()));
     }
 
     @Override

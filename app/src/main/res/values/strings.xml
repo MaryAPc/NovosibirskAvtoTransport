@@ -1,20 +1,20 @@
 <resources>
-    <string name="app_name">NovosibAvtoTransport</string>
-    
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_maps">Map</string>
-    <string name="spinner_hint_textview">Выберите вид транспорта:</string>
-    <string name="go_to_map">На карту</string>
+	<string name="app_name">NovosibAvtoTransport</string>
 
-    <string name="alert_dialog_title_error">Ошибка!</string>
-    <string name="alert_dialog_message_check_network">Проверьте подключение к интернету</string>
-    <string name="slider_panel_go_to_map">На карту</string>
-    <string name="chosen_marsh">Выбранные маршруты</string>
+	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="title_activity_maps">Map</string>
+	<string name="spinner_hint_textview">Выберите вид транспорта:</string>
+	<string name="go_to_map">На карту</string>
 
-    <string-array name="transport_types">
-        <item>Автобус</item>
-        <item>Троллейбус</item>
-        <item>Трамвай</item>
-        <item>Маршрутное такси</item>
-    </string-array>
+	<string name="alert_dialog_title_error">Ошибка!</string>
+	<string name="alert_dialog_message_check_network">Проверьте подключение к интернету</string>
+	<string name="slider_panel_go_to_map">На карту</string>
+	<string name="chosen_marsh">Выбранные маршруты</string>
+
+	<string-array name="transport_types">
+		<item>Автобус</item>
+		<item>Троллейбус</item>
+		<item>Трамвай</item>
+		<item>Маршрутное такси</item>
+	</string-array>
 </resources>

@@ -17,7 +17,7 @@
 			android:layout_height="?attr/actionBarSize"
 			android:background="?attr/colorPrimary"
 			app:layout_scrollFlags="scroll|enterAlways|snap"
-			app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+			app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 		<android.support.design.widget.TabLayout
 			android:id="@+id/main_activity_tabs"
@@ -34,13 +34,13 @@
 		sothree:umanoDragView="@+id/dragView"
 		sothree:umanoOverlay="false"
 		sothree:umanoPanelHeight="50dp"
-		sothree:umanoShadowHeight="4dp">
+		sothree:umanoShadowHeight="4dp"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 		<android.support.v4.view.ViewPager
 			android:id="@+id/main_layout_fragment_container"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+			android:layout_height="match_parent" />
 
 		<!-- SLIDING LAYOUT -->
 		<LinearLayout
@@ -67,13 +67,11 @@
 
 			</LinearLayout>
 
-			<fragment android:id="@+id/map"
-				android:name="com.google.android.gms.maps.SupportMapFragment"
-				xmlns:android="http://schemas.android.com/apk/res/android"
-				xmlns:tools="http://schemas.android.com/tools"
+			<fragment
+				android:id="@+id/main_layout_map_container"
+				android:name="com.google.android.gms.maps.MapFragment"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				tools:context="com.novosibavto.novosibavtotransport.MapFragment" />
+				android:layout_height="match_parent" />
 
 		</LinearLayout>
 
